@@ -7,7 +7,6 @@ const fetchData = async () => {
 };
 
 const HomePage = () => {
-  const dataPromise = fetchData();
   // const dataPromise: any = async () => {
   //   'use server';
   //   // call API
@@ -18,7 +17,7 @@ const HomePage = () => {
   return (
     <div>
       <Suspense fallback="loading...">
-        <InnerComponent promise={dataPromise} />
+        {/* <InnerComponent promise={dataPromise} /> */}
         Hello world
       </Suspense>
     </div>

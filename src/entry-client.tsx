@@ -10,7 +10,6 @@ hydrateRoot(
   document.getElementById("root") as HTMLElement,
   <StrictMode>
     <BrowserRouter>
-      // TODO: error here
       <Router />
     </BrowserRouter>
   </StrictMode>
