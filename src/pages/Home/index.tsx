@@ -1,24 +1,20 @@
 import { Suspense } from "react";
 import InnerComponent from "../../components/InnerComponent";
 
-const fetchData = async () => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-  return res.json();
-};
-
 const HomePage = () => {
-  // const dataPromise: any = async () => {
-  //   'use server';
-  //   // call API
-  //   return await fetchData();
-  // }
-  console.log("this is message from server component");
+  const dataPromise = fetch("https://jsonplaceholder.typicode.com/posts").then(
+    (res) => res.json()
+  );
+
+  const componentType = typeof window === "undefined" ? "server" : "client";
+
+  console.log("Type of component is: ", componentType);
 
   return (
     <div>
+      <p>This is Home page</p>
       <Suspense fallback="loading...">
-        {/* <InnerComponent promise={dataPromise} /> */}
-        Hello world
+        <InnerComponent promise={dataPromise} />
       </Suspense>
     </div>
   );
