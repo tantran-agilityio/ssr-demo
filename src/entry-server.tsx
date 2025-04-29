@@ -1,10 +1,11 @@
 // import { StrictMode } from "react";
-// import { renderToPipeableStream } from "react-dom/server";
+// import { renderToPipeableStream, renderToString } from "react-dom/server";
 // import { Router } from "./router";
 // import { StaticRouter } from "react-router";
 
+// TODO: renderToString
 // export function render(path: string) {
-//   const html = renderToPipeableStream(
+//   const html = renderToString(
 //     <StrictMode>
 //       <StaticRouter location={path}>
 //         <Router />
@@ -14,6 +15,7 @@
 //   return { html };
 // }
 
+// TODO: draft 1
 // export function render(path: string, res: any) { // Replace `any` with proper type (e.g., Express Response if using Express)
 //   const stream = renderToPipeableStream(
 //     <StrictMode>
@@ -43,6 +45,8 @@
 //   );
 // }
 
+// TODO: updated code
+import { StrictMode } from "react";
 import { renderToPipeableStream } from "react-dom/server";
 import { StaticRouter } from "react-router";
 import { Router } from "./router";
@@ -53,13 +57,16 @@ export function render(url: string, res: Response) {
   const stream = new PassThrough();
 
   const { pipe, abort } = renderToPipeableStream(
-    <StaticRouter location={url}>
-      <Router />
-    </StaticRouter>,
+    <StrictMode>
+      <StaticRouter location={url}>
+        <Router />
+      </StaticRouter>
+    </StrictMode>,
     {
       onShellReady() {
         // Headers and streaming start
         res.statusCode = 200;
+        // TODO: refactor here
         res.setHeader("Content-Type", "text/html");
         pipe(stream);
         stream.pipe(res);
@@ -76,33 +83,22 @@ export function render(url: string, res: Response) {
   setTimeout(abort, 10000);
 }
 
-// import { renderToPipeableStream } from "react-dom/server";
+// TODO: draft 2
+// import { StrictMode } from "react";
+// import {
+//   renderToPipeableStream,
+//   type RenderToPipeableStreamOptions,
+// } from "react-dom/server";
 // import { StaticRouter } from "react-router";
 // import { Router } from "./router";
-// import { PassThrough } from "stream";
-// import { Request, Response } from "express";
 
-// export function render(url: string, res: Response) {
-//   const stream = new PassThrough();
-
-//   const { pipe, abort } = renderToPipeableStream(
-//     <StaticRouter location={url}>
-//       <Router />
-//     </StaticRouter>,
-//     {
-//       onShellReady() {
-//         // Headers and streaming start
-//         res.statusCode = 200;
-//         res.setHeader("Content-Type", "text/html");
-//         pipe(stream);
-//         stream.pipe(res);
-//       },
-//       onError(err) {
-//         console.error(err);
-//       },
-//     }
+// export function render(url: string, options?: RenderToPipeableStreamOptions) {
+//   return renderToPipeableStream(
+//     <StrictMode>
+//       <StaticRouter location={url}>
+//         <Router />
+//       </StaticRouter>
+//     </StrictMode>,
+//     options
 //   );
-
-//   // Timeout to abort render in case something goes wrong
-//   setTimeout(abort, 10000);
 // }
