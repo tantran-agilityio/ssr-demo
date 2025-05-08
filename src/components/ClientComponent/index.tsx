@@ -9,11 +9,11 @@ interface PostItemProps {
   body: string;
 }
 
-interface ServerComponentProps {
+interface ClientComponentProps {
   promise: Promise<PostItemProps[]>;
 }
 
-const InnerComponent = ({ promise }: ServerComponentProps) => {
+const ClientComponent = ({ promise }: ClientComponentProps) => {
   const data = use(promise);
   return (
     <ul>
@@ -27,4 +27,4 @@ const InnerComponent = ({ promise }: ServerComponentProps) => {
   );
 };
 
-export default InnerComponent;
+export default ClientComponent;

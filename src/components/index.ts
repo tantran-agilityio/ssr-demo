@@ -1,1 +1,1 @@
-export { default as InnerComponent } from "./InnerComponent";
+export { default as ClientComponent } from "./ClientComponent";
